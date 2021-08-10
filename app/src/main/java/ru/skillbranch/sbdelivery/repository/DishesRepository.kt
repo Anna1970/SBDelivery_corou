@@ -62,8 +62,6 @@ class DishesRepository @Inject constructor(
             .filter { it.contains(query, true) }
             .sorted()
             .groupingBy { it }.eachCount();
-//        todo
-
     }
 
     override suspend fun addDishToCart(id: String) {

@@ -27,8 +27,8 @@ class CartRepository @Inject constructor(
 
     override suspend fun decrementItem(dishId: String) = cartDao.decrementItemCount(dishId)
 
-    override suspend fun removeItem(dishId: String)  = cartDao.removeItem(dishId) //todo
+    override suspend fun removeItem(dishId: String)  = cartDao.removeItem(dishId)
 
-    override suspend fun clearCart() = cartDao.clearCart() //todo
+    override suspend fun clearCart() = cartDao.clearCart()
 
 }

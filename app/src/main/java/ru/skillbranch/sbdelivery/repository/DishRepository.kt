@@ -51,7 +51,6 @@ class DishRepository @Inject constructor(
     }
 
     override suspend fun sendReview(id: String, rating: Int, review: String): ReviewRes {
-        //TODO("Not yet implemented")
         api.sendReview(id,  ReviewReq(rating, review))
         return ReviewRes("Name", Date().time, rating, review)
     }
