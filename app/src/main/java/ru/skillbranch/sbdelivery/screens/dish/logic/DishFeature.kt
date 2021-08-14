@@ -15,12 +15,12 @@ object DishFeature {
     data class State(
         val id: String,
         val title: String,
+        val isLiked: Boolean = false,
         val isReviewDialog: Boolean = false,
         val reviews: ReviewUiState = ReviewUiState.Loading,
         val content: DishUiState = DishUiState.Loading,
         val count: Int = 1,
-        val rating: Float = 0f,
-        val isLiked: Boolean = false
+        val rating: Float = 0f
     ): Serializable
 
     sealed class Eff {

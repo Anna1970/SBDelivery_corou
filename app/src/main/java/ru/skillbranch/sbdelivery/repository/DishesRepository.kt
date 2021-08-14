@@ -9,6 +9,7 @@ import ru.skillbranch.sbdelivery.data.network.res.DishRes
 import ru.skillbranch.sbdelivery.data.toDishItem
 import ru.skillbranch.sbdelivery.data.toDishPersist
 import ru.skillbranch.sbdelivery.screens.dishes.data.DishItem
+import java.util.*
 import javax.inject.Inject
 
 interface IDishesRepository {
@@ -33,7 +34,7 @@ class DishesRepository @Inject constructor(
             .map { it.toDishItem() }
     }
 
-    override suspend fun isEmptyDishes(): Boolean = true
+    override suspend fun isEmptyDishes(): Boolean = dishesDao.dishesCounts() == 0
 
     override suspend fun syncDishes() {
         val dishes = mutableListOf<DishRes>()
@@ -55,24 +56,24 @@ class DishesRepository @Inject constructor(
         val listDishes = searchDishes(query)
 
         return listDishes
-            .map{it.title
-                .replace("[.,!?\"-]".toRegex(), "")
-                .split(" ")}
-            .flatten()
-            .filter { it.contains(query, true) }
-            .sorted()
-            .groupingBy { it }.eachCount();
+            .map{ it.title.replace("[.,!?\"-]".toRegex(), "")
+                .lowercase(Locale.getDefault())
+                .split(" ")
+            }
+            .flatten().
+            filter { it.contains(query, true) }
+            .groupingBy { it }.eachCount()
     }
 
     override suspend fun addDishToCart(id: String) {
         val count = cartDao.dishCount(id) ?: 0
-        if (count > 0) cartDao.updateItemCount(id, count.inc())
+        if (count > 1) cartDao.updateItemCount(id, count.inc())
         else cartDao.addItem(CartItemPersist(dishId = id))
     }
 
     override suspend fun removeDishFromCart(id: String) {
         val count = cartDao.dishCount(id) ?: 0
-        if (count > 1) cartDao.updateItemCount(id, count.dec())
+        if (count > 1) cartDao.decrementItemCount(id)
         else cartDao.removeItem(id)
     }
 

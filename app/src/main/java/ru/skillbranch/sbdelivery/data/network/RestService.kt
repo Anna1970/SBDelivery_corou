@@ -31,7 +31,16 @@ interface RestService {
         @Path("dish") dish:String,
         @Query("offset") offset: Int=0,
         @Query("limit") limit: Int=10
+    ): Response<List<ReviewRes>>
+
+    @GET("reviews/{dish}")
+    @Headers("If-Modified-Since: Mon, 1 Jun 2020 08:00:00 GMT")
+    suspend fun getReviewsFull(
+        @Path("dish") dish:String,
+        @Query("offset") offset: Int=0,
+        @Query("limit") limit: Int=10
     ): Response<List<ReviewFullRes>> // Response<List<ReviewRes>>
+
 
     @POST("reviews/{dish}")
     @Headers("If-Modified-Since: Mon, 1 Jun 2020 08:00:00 GMT")

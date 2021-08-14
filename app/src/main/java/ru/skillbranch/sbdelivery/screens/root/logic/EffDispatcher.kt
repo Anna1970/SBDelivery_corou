@@ -1,6 +1,8 @@
 package ru.skillbranch.sbdelivery.screens.root.logic
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -28,6 +30,7 @@ class EffDispatcher @Inject constructor(
     val notifications = _notifyChannel.receiveAsFlow()
     val androidCommands = _commandChannel.receiveAsFlow()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun handle(effect: Eff, commit: (Msg) -> Unit) {
         Log.e("EffDispatcher", "EFF $effect")
 

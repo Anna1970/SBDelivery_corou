@@ -58,40 +58,6 @@ fun DishContent(dish: DishContent, count: Int, accept: (DishFeature.Msg) -> Unit
                     end.linkTo(parent.end)
                 }
         )
-        /*CoilImage(
-            data = dish.image,
-            contentDescription = "My content description",
-            contentScale = ContentScale.Crop,
-            fadeIn = true,
-            error = {
-                Icon(
-                    painter = painterResource(R.drawable.img_empty_place_holder),
-                    contentDescription = null,
-                    tint = MaterialTheme.colors.secondary,
-                    modifier = Modifier
-                        .padding(48.dp)
-                        .fillMaxSize()
-                )
-            },
-            loading = {
-                Icon(
-                    painter = painterResource(R.drawable.img_empty_place_holder),
-                    contentDescription = null,
-                    tint = MaterialTheme.colors.secondary,
-                    modifier = Modifier
-                        .padding(48.dp)
-                        .fillMaxSize()
-                )
-            },
-            modifier = Modifier
-                .aspectRatio(1.44f)
-                .fillMaxSize()
-                .constrainAs(poster) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
-        )*/
         Text(
             fontSize = 24.sp,
             color = MaterialTheme.colors.onPrimary,

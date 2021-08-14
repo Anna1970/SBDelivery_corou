@@ -1,4 +1,4 @@
-package ru.skillbranch.sbdelivery.screens.cart.logic
+﻿package ru.skillbranch.sbdelivery.screens.cart.logic
 
 import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
@@ -12,8 +12,7 @@ import javax.inject.Inject
 
 class CartEffHandler @Inject constructor(
     private val repository: CartRepository,
-    private val notifyChannel: Channel<Eff.Notification>,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.Default
+    private val notifyChannel: Channel<Eff.Notification>
 ) : IEffHandler<CartFeature.Eff, Msg> {
     override suspend fun handle(effect: CartFeature.Eff, commit: (Msg) -> Unit) {
 

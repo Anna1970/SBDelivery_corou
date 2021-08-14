@@ -31,21 +31,15 @@ class DishRepository @Inject constructor(
     override suspend fun findDish(id: String): DishContent = dishesDao.findDish(id).toDishContent()
 
     override suspend fun addToCart(id: String, count: Int) {
-        val _count = cartDao.dishCount(id) ?: 0
-        if (_count > 0) cartDao.updateItemCount(id, _count + count)
-        else {
-            cartDao.addItem(CartItemPersist(dishId = id))
-            cartDao.updateItemCount(id, count)
-        }
+        cartDao.addItem(CartItemPersist(dishId = id, count = count))
     }//todo
 
     override suspend fun cartCount(): Int = cartDao.cartCount() ?: 0 //todo
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun loadReviews(dishId: String): List<ReviewRes> {
         //todo
-        val response = api.getReviews(dishId,0,10)
+        val response = api.getReviewsFull(dishId,0,100)//api.getReviews(dishId,0,10)
         return  if (response.isSuccessful) response.body()!!.map{it.toReviewResItem()}
                 else emptyList()
     }
