@@ -46,8 +46,8 @@ class DishEffHandler @Inject constructor(
                 }
                 is DishFeature.Eff.SendReview -> {
                     val review = repository.sendReview(effect.id, effect.rating, effect.review)
-                   // val newReviews = repository.loadReviews(effect.id) + review
-                   // commit(DishFeature.Msg.ShowReviews(newReviews).toMsg())
+                    val newReviews = repository.loadReviews(effect.id) + review
+                    commit(DishFeature.Msg.ShowReviews(newReviews).toMsg())
                     notifyChannel.send(Eff.Notification.Text("Отзыв успешно отправлен"))
                 }//todo()
                 is DishFeature.Eff.Terminate -> {

@@ -15,7 +15,7 @@ fun DishFeature.State.selfReduce(msg: DishFeature.Msg) : Pair<DishFeature.State,
         is DishFeature.Msg.SendReview -> this to setOf(DishFeature.Eff.SendReview(msg.dishId, msg.rating, msg.review)).toEffs()//todo()
         is DishFeature.Msg.ShowDish -> copy(content = DishUiState.Value(msg.dish)) to emptySet()
         is DishFeature.Msg.ShowReviewDialog -> copy(isReviewDialog = true) to emptySet()//todo()
-        is DishFeature.Msg.ShowReviews -> copy(reviews = ReviewUiState.Value(msg.reviews)) to emptySet()
+        is DishFeature.Msg.ShowReviews -> copy(reviews = ReviewUiState.ValueWithLoading(msg.reviews)) to emptySet()
         is DishFeature.Msg.ToggleLike -> copy(isLiked = this.isLiked.not()) to emptySet() //todo()
     }
 
