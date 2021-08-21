@@ -1,7 +1,6 @@
 package ru.skillbranch.sbdelivery.repository
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import ru.skillbranch.sbdelivery.data.db.dao.CartDao
 import ru.skillbranch.sbdelivery.data.db.dao.DishesDao
