@@ -42,10 +42,10 @@ fun DishPersist.toDishContent() : DishContent =
 
 fun CartItemDbView.toCartItem() : CartItem = CartItem(dishId, image, title, count, price)
 
-@RequiresApi(Build.VERSION_CODES.O)
+/*@RequiresApi(Build.VERSION_CODES.O)
 fun ReviewRes.toReviewResItem() : ReviewRes = ReviewRes(
     name = author,
     date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).parse(date)?.time ?: Date().time,
     rating = rating,
     message = text ?: ""
-)
+)*/
