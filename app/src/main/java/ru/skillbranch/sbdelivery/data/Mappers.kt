@@ -5,7 +5,6 @@ import androidx.annotation.RequiresApi
 import ru.skillbranch.sbdelivery.data.db.entity.CartItemDbView
 import ru.skillbranch.sbdelivery.data.db.entity.DishPersist
 import ru.skillbranch.sbdelivery.data.network.res.DishRes
-import ru.skillbranch.sbdelivery.data.network.res.ReviewFullRes
 import ru.skillbranch.sbdelivery.data.network.res.ReviewRes
 import ru.skillbranch.sbdelivery.screens.cart.data.CartItem
 import ru.skillbranch.sbdelivery.screens.dish.data.DishContent
@@ -44,7 +43,7 @@ fun DishPersist.toDishContent() : DishContent =
 fun CartItemDbView.toCartItem() : CartItem = CartItem(dishId, image, title, count, price)
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun ReviewFullRes.toReviewResItem() : ReviewRes = ReviewRes(
+fun ReviewRes.toReviewResItem() : ReviewRes = ReviewRes(
     name = author,
     date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).parse(date)?.time ?: Date().time,
     rating = rating,
