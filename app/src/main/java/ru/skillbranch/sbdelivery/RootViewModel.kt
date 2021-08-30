@@ -11,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RootViewModel @Inject constructor(
     val savedState : SavedStateHandle,
-    val dispatcher: RootEffDispatcher
+    val dispatcher: EffDispatcher
 ) : ViewModel() {
     val feature = RootFeature
 
