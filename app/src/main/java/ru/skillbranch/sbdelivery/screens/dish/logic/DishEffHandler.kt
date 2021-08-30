@@ -1,6 +1,7 @@
 package ru.skillbranch.sbdelivery.screens.dish.logic
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -37,8 +38,10 @@ class DishEffHandler @Inject constructor(
                     commit(DishFeature.Msg.ShowDish(dish).toMsg())
                 }
                 is DishFeature.Eff.LoadReviews -> {
+                    Log.e("SBD_Eff.LoadReviews","Load ${effect.dishId}")
                     try {
                         val reviews = repository.loadReviews(effect.dishId)
+                        Log.e("SBD_Eff.LoadReviews","Load $reviews")
                         commit(DishFeature.Msg.ShowReviews(reviews).toMsg())
                     } catch (t: Throwable) {
                         notifyChannel.send(Eff.Notification.Error(t.message ?: "something error"))

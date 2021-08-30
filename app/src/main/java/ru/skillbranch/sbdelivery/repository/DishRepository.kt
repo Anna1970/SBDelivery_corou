@@ -9,7 +9,6 @@ import ru.skillbranch.sbdelivery.data.network.RestService
 import ru.skillbranch.sbdelivery.data.network.req.ReviewReq
 import ru.skillbranch.sbdelivery.data.network.res.ReviewRes
 import ru.skillbranch.sbdelivery.data.toDishContent
-import ru.skillbranch.sbdelivery.data.toReviewResItem
 import ru.skillbranch.sbdelivery.screens.dish.data.DishContent
 import java.util.*
 import javax.inject.Inject
@@ -30,7 +29,9 @@ class DishRepository @Inject constructor(
     override suspend fun findDish(id: String): DishContent = dishesDao.findDish(id).toDishContent()
 
     override suspend fun addToCart(id: String, count: Int) {
-        cartDao.addItem(CartItemPersist(dishId = id, count = count))
+        val _count = cartCount()
+        if (_count > 0) cartDao.updateItemCount(id,_count + count)
+        else cartDao.addItem(CartItemPersist(dishId = id, count = count))
     }//todo
 
     override suspend fun cartCount(): Int = cartDao.cartCount() ?: 0 //todo
@@ -38,13 +39,20 @@ class DishRepository @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun loadReviews(dishId: String): List<ReviewRes> {
         //todo
-        val response = api.getReviewsFull(dishId,0,100)//api.getReviews(dishId,0,10)
-        return  if (response.isSuccessful) response.body()!!.map{it.toReviewResItem()}
-                else emptyList()
+        val reviews = mutableListOf<ReviewRes>()
+        var offset = 0
+        while (true) {
+            val response = api.getReviews(dishId, offset * 10, 10)
+            if (response.isSuccessful) {
+                offset++
+                reviews.addAll(response.body()!!)
+            }
+            else break
+        }
+
+        return reviews
     }
 
-    override suspend fun sendReview(id: String, rating: Int, review: String): ReviewRes {
-        api.sendReview(id,  ReviewReq(rating, review))
-        return ReviewRes("Name", Date().time, rating, review)
-    }
+    override suspend fun sendReview(id: String, rating: Int, review: String) =
+        api.sendReview(id, ReviewReq(rating, text = review))
 }
