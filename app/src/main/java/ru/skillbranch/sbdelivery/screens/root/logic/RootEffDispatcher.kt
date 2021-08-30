@@ -14,7 +14,7 @@ import javax.inject.Inject
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.coroutineContext
 
-class EffDispatcher @Inject constructor(
+class RootEffDispatcher @Inject constructor(
     private val dishesHandler: DishesEffHandler,
     private val dishHandler: DishEffHandler,
     private val cartHandler: CartEffHandler,
@@ -32,7 +32,7 @@ class EffDispatcher @Inject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun handle(effect: Eff, commit: (Msg) -> Unit) {
-        Log.e("EffDispatcher", "EFF $effect")
+        Log.e("RootEffDispatcher", "EFF $effect")
 
 
         when (effect) {
