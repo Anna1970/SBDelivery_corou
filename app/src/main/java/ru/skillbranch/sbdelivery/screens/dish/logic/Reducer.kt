@@ -12,7 +12,14 @@ fun DishFeature.State.selfReduce(msg: DishFeature.Msg) : Pair<DishFeature.State,
         is DishFeature.Msg.DecrementCount -> copy(count = if (count > 1) count - 1 else count) to emptySet()//todo()
         is DishFeature.Msg.HideReviewDialog -> copy(isReviewDialog = false) to emptySet() //todo()
         is DishFeature.Msg.IncrementCount -> copy(count = this.count.inc()) to emptySet()//todo()
-        is DishFeature.Msg.SendReview -> this to setOf(DishFeature.Eff.SendReview(msg.dishId, msg.rating, msg.review)).toEffs()//todo()
+        is DishFeature.Msg.SendReview -> {
+            val currentReviews = if(reviews is ReviewUiState.Value) reviews.list else emptyList()
+            copy(
+                isReviewDialog = false,
+                reviews = ReviewUiState.ValueWithLoading(currentReviews)
+            ) to setOf(DishFeature.Eff.SendReview(msg.dishId, msg.rating, msg.review)).toEffs()
+        }
+//todo()
         is DishFeature.Msg.ShowDish -> copy(content = DishUiState.Value(msg.dish)) to emptySet()
         is DishFeature.Msg.ShowReviewDialog -> copy(isReviewDialog = true) to emptySet()//todo()
         is DishFeature.Msg.ShowReviews -> copy(reviews = ReviewUiState.Value(msg.reviews)) to emptySet()

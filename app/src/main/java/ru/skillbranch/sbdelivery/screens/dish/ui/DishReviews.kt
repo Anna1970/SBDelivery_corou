@@ -50,6 +50,10 @@ fun DishReviews(reviews: ReviewUiState, rating: Float, accept: (DishFeature.Msg)
         ) {
             Text(text = "Отзывов о этом товаре пока нет.\n Но вы можете быть первым")
         }
+
+        is ReviewUiState.ValueWithLoading -> {
+
+        }
     }
 }
 
