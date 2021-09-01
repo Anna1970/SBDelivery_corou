@@ -8,8 +8,12 @@ import ru.skillbranch.sbdelivery.screens.root.logic.ScreenState
 
 fun DishFeature.State.selfReduce(msg: DishFeature.Msg) : Pair<DishFeature.State, Set<Eff>> =
     when(msg){
-        is DishFeature.Msg.AddToCart -> this to setOf(DishFeature.Eff.AddToCart(msg.id, msg.count)).toEffs()//todo
-        is DishFeature.Msg.DecrementCount -> copy(count = if (count > 1) count - 1 else count) to emptySet()//todo()
+        is DishFeature.Msg.AddToCart ->
+            copy(count = 1) to setOf(DishFeature.Eff.AddToCart(msg.id, msg.count)).toEffs() //todo
+        is DishFeature.Msg.DecrementCount -> {
+            if (count <= 1) this to emptySet()
+            else copy(count = count.dec()) to emptySet()
+        } //todo()
         is DishFeature.Msg.HideReviewDialog -> copy(isReviewDialog = false) to emptySet() //todo()
         is DishFeature.Msg.IncrementCount -> copy(count = this.count.inc()) to emptySet()//todo()
         is DishFeature.Msg.SendReview -> {
@@ -22,7 +26,10 @@ fun DishFeature.State.selfReduce(msg: DishFeature.Msg) : Pair<DishFeature.State,
 //todo()
         is DishFeature.Msg.ShowDish -> copy(content = DishUiState.Value(msg.dish)) to emptySet()
         is DishFeature.Msg.ShowReviewDialog -> copy(isReviewDialog = true) to emptySet()//todo()
-        is DishFeature.Msg.ShowReviews -> copy(reviews = ReviewUiState.Value(msg.reviews)) to emptySet()
+        is DishFeature.Msg.ShowReviews -> {
+            if (msg.reviews.isNotEmpty()) copy(reviews = ReviewUiState.Value(msg.reviews)) to emptySet()
+            else copy(reviews = ReviewUiState.Empty) to emptySet()
+        }
         is DishFeature.Msg.ToggleLike -> copy(isLiked = this.isLiked.not()) to emptySet() //todo()
     }
 

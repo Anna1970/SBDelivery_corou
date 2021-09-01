@@ -27,11 +27,17 @@ class DishEffHandler @Inject constructor(
         withContext(localJob!! + dispatcher) {
             when (effect) {
                 is DishFeature.Eff.AddToCart -> {//todo()
+                    /*repository.addToCart(effect.id, effect.count)
+                    repository.cartCount()
+                        .let(Msg::UpdateCartCount)
+                        .also(commit)
+                    notifyChannel.send(Eff.Notification.Text("В корзину добавлено ${effect.count} товаров"))*/
                     repository.addToCart(effect.id, effect.count)
                     commit(Msg.UpdateCartCount(repository.cartCount()))
                     notifyChannel.send(
                         Eff.Notification.Text("В корзину добавлено ${effect.count} товаров")
                     )
+
                 }
                 is DishFeature.Eff.LoadDish -> {
                     val dish = repository.findDish(effect.dishId)

@@ -3,7 +3,6 @@ package ru.skillbranch.sbdelivery.screens.dish.ui
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -23,12 +22,11 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.ImagePainter
-//import androidx.constraintlayout.compose.Dimension
 import coil.compose.rememberImagePainter
-//import dev.chrisbanes.accompanist.coil.CoilImage
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.screens.dish.logic.DishFeature
 import ru.skillbranch.sbdelivery.screens.dish.data.DishContent
+
 import ru.skillbranch.sbdelivery.screens.root.ui.AppTheme
 
 @Composable
@@ -104,6 +102,7 @@ fun DishContent(dish: DishContent, count: Int, accept: (DishFeature.Msg) -> Unit
         TextButton(
             onClick = {
                 accept(DishFeature.Msg.AddToCart(dish.id, count))
+
             },//todo
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.secondary,

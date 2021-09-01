@@ -9,7 +9,9 @@ import ru.skillbranch.sbdelivery.data.network.RestService
 import ru.skillbranch.sbdelivery.data.network.req.ReviewReq
 import ru.skillbranch.sbdelivery.data.network.res.ReviewRes
 import ru.skillbranch.sbdelivery.data.toDishContent
+import ru.skillbranch.sbdelivery.screens.cart.logic.CartFeature
 import ru.skillbranch.sbdelivery.screens.dish.data.DishContent
+import ru.skillbranch.sbdelivery.screens.dish.logic.DishFeature
 import java.util.*
 import javax.inject.Inject
 
@@ -29,9 +31,7 @@ class DishRepository @Inject constructor(
     override suspend fun findDish(id: String): DishContent = dishesDao.findDish(id).toDishContent()
 
     override suspend fun addToCart(id: String, count: Int) {
-        val _count = cartCount()
-        if (_count > 0) cartDao.updateItemCount(id,_count + count)
-        else cartDao.addItem(CartItemPersist(dishId = id, count = count))
+        if (cartCount() <= 0)  cartDao.addItem(CartItemPersist(dishId = id, count = count))
     }//todo
 
     override suspend fun cartCount(): Int = cartDao.cartCount() ?: 0 //todo
