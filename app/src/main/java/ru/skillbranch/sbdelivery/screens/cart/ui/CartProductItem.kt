@@ -14,7 +14,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-//import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -23,13 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
-//import dev.chrisbanes.accompanist.coil.CoilImage
 import ru.skillbranch.sbdelivery.R
-import ru.skillbranch.sbdelivery.screens.cart.data.CartItem
+import ru.skillbranch.sbdelivery.domain.CartItem
 import ru.skillbranch.sbdelivery.screens.root.ui.AppTheme
 
+@ExperimentalCoilApi
 @Composable
 fun CartListItem(
     dish: CartItem,
@@ -42,7 +42,6 @@ fun CartListItem(
         ConstraintLayout() {
 
             val (title, poster, price, stepper) = createRefs()
-
             val painter = rememberImagePainter(
                 data = dish.image,
                 builder = {
@@ -65,44 +64,7 @@ fun CartListItem(
                         bottom.linkTo(parent.bottom)
                     }
                     .clip(RoundedCornerShape(8.dp))
-
-            )
-
-            /*CoilImage(
-                data = dish.image,
-                contentDescription = "My content description",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .height(80.dp)
-                    .aspectRatio(1f)
-                    .clickable { onProductClick(dish.id, dish.title) }
-                    .constrainAs(poster) {
-                        top.linkTo(parent.top)
-                        start.linkTo(parent.start)
-                        bottom.linkTo(parent.bottom)
-                    }
-                    .clip(RoundedCornerShape(8.dp)),
-                error = {
-                    Icon(
-                        painter = painterResource(R.drawable.img_empty_place_holder),
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.secondary,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxSize()
-                    )
-                },
-                loading = {
-                    Icon(
-                        painter = painterResource(R.drawable.img_empty_place_holder),
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.secondary,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxSize()
-                    )
-                }
-                )*/
+                )
             Text(
                 fontSize = 18.sp,
                 color = MaterialTheme.colors.onPrimary,
@@ -158,9 +120,10 @@ fun CartStepper(
     onIncrement: () -> Unit,
     onRemove: () -> Unit
 ) {
-    Row(modifier
-        .height(32.dp)
-        .animateContentSize()
+    Row(
+        modifier
+            .height(32.dp)
+            .animateContentSize()
     ){
         Row(
             modifier = modifier
@@ -253,30 +216,34 @@ fun CartStepper(
 
 @Preview
 @Composable
-fun CartStepperRemovePreview(){
+fun CartListPreview(){
+    val dish = CartItem("0","", "test",1,200)
     AppTheme {
-        CartStepper(value = 1, onDecrement = {}, onIncrement = {}, onRemove = {})
-    }
-}
-
-@Preview
-@Composable
-fun CartStepperIdlePreview(){
-    AppTheme {
-        CartStepper(value = 2, onDecrement = {}, onIncrement = {}, onRemove = {})
+        CartListItem(dish, onProductClick = {_,_ ->}, onIncrement = {}, onDecrement = {}, onRemove = {_,_ ->})
     }
 }
 
 @Preview
 @Composable
 fun CartItemPreview(){
-    val dish = CartItem("0","", "test", 2, 100)
+    val dish = CartItem("0","", "test",1,200)
     AppTheme {
-        CartListItem(
-            dish = dish,
-            onProductClick = { a, b -> },
-            onIncrement = {},
-            onDecrement = {},
-            onRemove = { a, b -> })
+        CartListItem(dish, onProductClick = {_,_ ->}, onIncrement = {}, onDecrement = {}, onRemove = {_,_ ->})
+    }
+}
+
+@Preview
+@Composable
+fun StepperInitialPreview(){
+    AppTheme {
+        CartStepper(1,onDecrement = {}, onIncrement = {}, onRemove = {})
+    }
+}
+
+@Preview
+@Composable
+fun StepperPreview(){
+    AppTheme {
+        CartStepper(2,onDecrement = {}, onIncrement = {}, onRemove = {})
     }
 }

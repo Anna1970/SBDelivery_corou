@@ -5,7 +5,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 
-/*interface IEffectHandler<E, M> {
+interface IEffectHandler<E, M> {
     var localJob : Job
     suspend fun handle(eff: E, commit: (M) -> Unit)
     fun cancelJob(){
@@ -13,4 +13,4 @@ import kotlinx.coroutines.cancel
         localJob.cancel("message cancel terminate command")
         localJob = SupervisorJob()
     }
-}*/
+}
